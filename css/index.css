@@ -1,0 +1,66 @@
+:root {
+  --sidebar-width: 250px;
+  --navbar-height: 60px;
+}
+
+body {
+  padding-top: var(--navbar-height);
+  overflow-x: hidden;
+  background-color: #f5f7fa;
+}
+
+/* ---------- NAVBAR ---------- */
+#mainNavbar {
+  height: var(--navbar-height);
+  z-index: 1050;
+}
+
+/* ---------- SIDEBAR ---------- */
+.sidebar {
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--navbar-height));
+  transition: transform 0.3s ease;
+  z-index: 1040;
+}
+
+/* Estado colapsado */
+.sidebar.collapsed {
+  transform: translateX(-100%);
+}
+
+.sidebar .nav-link {
+  padding: 0.75rem 1rem;
+  border-radius: 0;
+}
+
+.sidebar .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ---------- CONTENIDO ---------- */
+.content {
+  margin-left: var(--sidebar-width);
+  transition: margin-left 0.3s ease;
+  padding: 1.5rem;
+  min-height: calc(100vh - var(--navbar-height));
+}
+
+.content.expanded {
+  margin-left: 0;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.show {
+    transform: translateX(0);
+  }
+  .content {
+    margin-left: 0;
+  }
+}
