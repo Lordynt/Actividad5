@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sistema Escolar - Panel principal y captura de alumnos">
   <title>Sistema - Inicio</title>
 
   <!-- Bootstrap 5 -->
@@ -12,14 +13,16 @@
   <!-- CSS propio -->
   <link rel="stylesheet" href="css/index.css">
 </head>
-<body>
+
+<!-- El body arranca oculto hasta validar la sesión en index.js -->
+<body class="d-none" id="appBody">
 
   <!-- ================= NAVBAR ================= -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top px-3" id="mainNavbar">
-    <button class="btn btn-outline-light me-3" id="btnHamburguesa">
+    <button class="btn btn-outline-light me-3" id="btnHamburguesa" aria-label="Abrir o cerrar menú">
       <i class="bi bi-list"></i>
     </button>
-    <a class="navbar-brand" href="#">Sistema Escolar</a>
+    <a class="navbar-brand" href="#" id="brandInicio">Sistema Escolar</a>
 
     <div class="ms-auto dropdown">
       <button class="btn btn-dark dropdown-toggle d-flex align-items-center gap-2"
@@ -28,9 +31,11 @@
         <span id="nombreUsuarioNav">Usuario</span>
       </button>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUsuario">
-        <li><a class="dropdown-item" href="#" id="btnSalir">
-          <i class="bi bi-box-arrow-right me-2"></i>Salir del sistema
-        </a></li>
+        <li>
+          <a class="dropdown-item" href="#" id="btnSalir">
+            <i class="bi bi-box-arrow-right me-2"></i>Salir del sistema
+          </a>
+        </li>
       </ul>
     </div>
   </nav>
@@ -43,7 +48,7 @@
 
     <ul class="nav flex-column mt-2">
       <li class="nav-item">
-        <a class="nav-link text-white" href="#">
+        <a class="nav-link text-white" href="#" id="linkInicio">
           <i class="bi bi-house-door me-2"></i>Inicio
         </a>
       </li>
@@ -51,7 +56,8 @@
       <!-- USUARIOS con submenú -->
       <li class="nav-item">
         <a class="nav-link text-white d-flex justify-content-between align-items-center"
-           data-bs-toggle="collapse" href="#submenuUsuarios" role="button">
+           data-bs-toggle="collapse" href="#submenuUsuarios" role="button"
+           aria-expanded="false" aria-controls="submenuUsuarios">
           <span><i class="bi bi-people me-2"></i>Usuarios</span>
           <i class="bi bi-chevron-down"></i>
         </a>
@@ -86,7 +92,7 @@
           <div class="col-md-6">
             <label for="nombreAlumno" class="form-label">Nombre de usuario</label>
             <input type="text" class="form-control" id="nombreAlumno" required>
-            <div class="invalid-feedback">Ingresa un nombre válido.</div>
+            <div class="invalid-feedback">Ingresa un nombre válido (mínimo 3 caracteres).</div>
           </div>
 
           <div class="col-md-6">
@@ -104,8 +110,14 @@
           <div class="col-md-6">
             <label for="numControl" class="form-label">Número de control</label>
             <input type="text" class="form-control" id="numControl"
-                   maxlength="6" pattern="\d{6}" required>
+                   maxlength="6" pattern="\d{6}" inputmode="numeric" required>
             <div class="invalid-feedback">Debe tener exactamente 6 dígitos.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="edadAlumno" class="form-label">Edad</label>
+            <input type="number" class="form-control" id="edadAlumno" min="1" max="120" required>
+            <div class="invalid-feedback">Ingresa una edad válida (1-120).</div>
           </div>
 
           <div class="col-12">
@@ -114,6 +126,26 @@
             </button>
           </div>
         </form>
+
+        <hr class="my-4">
+
+        <h4>Alumnos registrados</h4>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+              <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>N° Control</th>
+                <th>Edad</th>
+              </tr>
+            </thead>
+            <tbody id="tablaAlumnos">
+              <tr><td colspan="5" class="text-center text-muted">Sin alumnos registrados</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
     </div>
@@ -125,7 +157,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Resultado</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
         <div class="modal-body" id="modalEdadBody">
           <!-- Se rellena con JS -->
@@ -139,7 +171,7 @@
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Librería del profesor (utileria.js) -->
+  <!-- Librería utileria.js -->
   <script src="https://cdn.jsdelivr.net/gh/Lordynt/Actividad2/js/utileria.js"></script>
   <!-- JS propio -->
   <script src="js/index.js"></script>
