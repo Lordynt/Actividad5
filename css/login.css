@@ -1,0 +1,106 @@
+/* ================= LOGIN ================= */
+:root {
+  --login-dark: #212529;      /* mismo bg-dark del navbar */
+  --login-gray: #6c757d;      /* mismo bg-secondary del sidebar */
+  --login-bg: #f5f7fa;        /* mismo fondo del body en index */
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--login-bg);
+  overflow-x: hidden;
+}
+
+/* ---------- CONTENEDOR ---------- */
+.login-wrapper {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+/* ---------- TARJETA ---------- */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 0.5rem 1.5rem rgba(33, 37, 41, 0.15);
+}
+
+/* ---------- CABECERA (igual que el navbar) ---------- */
+.login-brand {
+  background-color: var(--login-dark);
+  color: #fff;
+  text-align: center;
+  padding: 1.75rem 1.5rem;
+  margin-bottom: 0;
+}
+
+.login-brand i {
+  font-size: 2.75rem;
+  color: #fff;
+}
+
+.login-brand h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.login-brand p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.95rem;
+}
+
+/* ---------- ALERTA Y FORMULARIO ---------- */
+#alertaLogin {
+  margin: 1.5rem 1.75rem 0;
+}
+
+#formLogin {
+  padding: 1.75rem;
+}
+
+#formLogin .form-label {
+  font-weight: 500;
+}
+
+#formLogin .input-group-text {
+  background-color: var(--login-gray);
+  border-color: var(--login-gray);
+  color: #fff;
+}
+
+#formLogin .form-control:focus {
+  border-color: var(--login-gray);
+  box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+}
+
+#formLogin .btn-primary {
+  padding: 0.6rem 1rem;
+  font-weight: 500;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 576px) {
+  .login-wrapper {
+    padding: 1rem;
+  }
+  .login-brand {
+    padding: 1.25rem 1rem;
+  }
+  #formLogin {
+    padding: 1.25rem;
+  }
+  #alertaLogin {
+    margin: 1.25rem 1.25rem 0;
+  }
+}
