@@ -1,10 +1,11 @@
 // Login simulado (sin base de datos)
-// Los usuarios están definidos aquí. Cámbialos por los que necesiten.
 const USUARIOS = [
-  { usuario: "admin",  correo: "admin@itoaxaca.edu.mx",    password: "admin123", nombre: "Administrador" },
-  { usuario: "roque",  correo: "roque@itoaxaca.edu.mx",    password: "1234",     nombre: "Roque Antonio" },
-  { usuario: "jesus",  correo: "23160870@itoaxaca.edu.mx", password: "1234",     nombre: "Jesús Cortés" }
+  { usuario: "admin", correo: "admin@itoaxaca.edu.mx",    password: "admin123", nombre: "Administrador" },
+  { usuario: "roque", correo: "roque@itoaxaca.edu.mx",    password: "1234",     nombre: "Roque Antonio" },
+  { usuario: "jesus", correo: "23160870@itoaxaca.edu.mx", password: "1234",     nombre: "Jesús Cortés" }
 ];
+
+const CLAVE_SESION = "usuarioActual"; // misma clave en login e index
 
 const form = document.getElementById("formLogin");
 const inputUsuario = document.getElementById("usuario");
@@ -13,9 +14,14 @@ const alerta = document.getElementById("alertaLogin");
 const alertaTexto = document.getElementById("alertaTexto");
 const btnVer = document.getElementById("btnVerPassword");
 
-// Si ya hay sesión, ir directo al sistema
-if (sessionStorage.getItem("usuarioActual")) {
-  window.location.href = "index.html";
+// Si ya hay sesión válida, ir directo al sistema
+try {
+  const sesionPrevia = JSON.parse(sessionStorage.getItem(CLAVE_SESION));
+  if (sesionPrevia && sesionPrevia.usuario) {
+    window.location.href = "index.html";
+  }
+} catch (error) {
+  sessionStorage.removeItem(CLAVE_SESION); // sesión dañada: se limpia
 }
 
 function mostrarError(mensaje) {
@@ -55,10 +61,11 @@ form.addEventListener("submit", (e) => {
     return;
   }
 
-  // Guardar sesión (se borra al cerrar la pestaña)
-  sessionStorage.setItem("usuarioActual", JSON.stringify({
+  // Se guarda usuario, nombre y correo (nunca la contraseña)
+  sessionStorage.setItem(CLAVE_SESION, JSON.stringify({
     usuario: encontrado.usuario,
-    nombre: encontrado.nombre
+    nombre: encontrado.nombre,
+    correo: encontrado.correo
   }));
 
   window.location.href = "index.html";
