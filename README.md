@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎓 Instituto Tecnológico de Oaxaca
+# Instituto Tecnológico de Oaxaca
 
 ---
 
