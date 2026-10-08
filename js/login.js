@@ -1,10 +1,5 @@
-// Login simulado (sin base de datos)
-const USUARIOS = [
-  { usuario: "admin", correo: "admin@itoaxaca.edu.mx",    password: "admin123", nombre: "Administrador" },
-  { usuario: "roque", correo: "roque@itoaxaca.edu.mx",    password: "1234",     nombre: "Roque Antonio" },
-  { usuario: "jesus", correo: "23160870@itoaxaca.edu.mx", password: "1234",     nombre: "Jesús Cortés" }
-];
-
+// Login simulado: los usuarios se leen de data/usuarios.json
+const RUTA_USUARIOS = "data/usuarios.json";
 const CLAVE_SESION = "usuarioActual"; // misma clave en login e index
 
 const form = document.getElementById("formLogin");
@@ -29,6 +24,13 @@ function mostrarError(mensaje) {
   alerta.classList.remove("d-none");
 }
 
+// Carga el JSON de usuarios
+async function cargarUsuarios() {
+  const respuesta = await fetch(RUTA_USUARIOS, { cache: "no-store" });
+  if (!respuesta.ok) throw new Error("No se pudo leer " + RUTA_USUARIOS);
+  return respuesta.json();
+}
+
 // Mostrar / ocultar contraseña
 btnVer.addEventListener("click", () => {
   const visible = inputPassword.type === "text";
@@ -37,7 +39,7 @@ btnVer.addEventListener("click", () => {
   btnVer.setAttribute("aria-label", visible ? "Mostrar contraseña" : "Ocultar contraseña");
 });
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
   alerta.classList.add("d-none");
 
@@ -49,7 +51,15 @@ form.addEventListener("submit", (e) => {
   const entrada = inputUsuario.value.trim().toLowerCase();
   const password = inputPassword.value;
 
-  const encontrado = USUARIOS.find(u =>
+  let usuarios;
+  try {
+    usuarios = await cargarUsuarios();
+  } catch (error) {
+    mostrarError("No se pudo cargar la lista de usuarios. Abre el proyecto desde http://localhost con XAMPP.");
+    return;
+  }
+
+  const encontrado = usuarios.find(u =>
     (u.usuario.toLowerCase() === entrada || u.correo.toLowerCase() === entrada) &&
     u.password === password
   );
