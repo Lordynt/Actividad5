@@ -377,14 +377,3 @@ function guardarAlumnos(arr) {
 
     ![Paso 11: Salir](img/flujo-11-salir.png)
 
----
-
-## 6. Cómo ejecutar el proyecto
-
-`login.js` usa `fetch()` para leer `data/usuarios.json`, por lo que el proyecto **no debe abrirse con doble clic** (`file:///`). Opciones:
-
-- **XAMPP:** copiar la carpeta a `C:\xampp\htdocs\`, encender Apache y abrir
-  `http://localhost/Actividad5/login.html`
-- **GitHub Pages:** activar *Settings → Pages* (rama `main`, carpeta `/ (root)`) y abrir
-  `https://lordynt.github.io/Actividad5/login.html`
-
