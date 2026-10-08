@@ -120,9 +120,12 @@
             <div class="invalid-feedback">Ingresa una edad válida (1-120).</div>
           </div>
 
-          <div class="col-12">
+          <div class="col-12 d-flex gap-3">
             <button class="btn btn-primary" type="submit">
               <i class="bi bi-save me-1"></i>Guardar alumno
+            </button>
+            <button class="btn btn-danger" type="button" id="btnAbrirEliminar">
+              <i class="bi bi-trash me-1"></i>Eliminar alumno
             </button>
           </div>
         </form>
@@ -168,6 +171,40 @@
       </div>
     </div>
   </div>
+
+  <!-- ================= MODAL ELIMINAR ALUMNO ================= -->
+    <div class="modal fade" id="modalEliminar" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title">
+              <i class="bi bi-trash me-2"></i>Eliminar alumno
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <p class="mb-3">Ingresa el <strong>número de control</strong> del alumno que deseas eliminar:</p>
+
+            <div id="alertaEliminar" class="alert alert-danger d-none" role="alert">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              <span id="alertaEliminarTexto"></span>
+            </div>
+
+            <div class="mb-3">
+              <label for="numControlEliminar" class="form-label">Número de control</label>
+              <input type="text" class="form-control" id="numControlEliminar"
+                 maxlength="6" inputmode="numeric" placeholder="Ej. 231001">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">
+              <i class="bi bi-trash me-1"></i>Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

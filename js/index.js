@@ -39,8 +39,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const inputNumCtrl  = document.getElementById("numControl");
   const inputEdad     = document.getElementById("edadAlumno");
 
+  // Modal edad
   const modalEdad     = new bootstrap.Modal(document.getElementById("modalEdad"));
   const modalEdadBody = document.getElementById("modalEdadBody");
+
+  // Modal eliminar
+  const modalEliminar        = new bootstrap.Modal(document.getElementById("modalEliminar"));
+  const btnAbrirEliminar     = document.getElementById("btnAbrirEliminar");
+  const btnConfirmarEliminar = document.getElementById("btnConfirmarEliminar");
+  const inputNumEliminar     = document.getElementById("numControlEliminar");
+  const alertaEliminar       = document.getElementById("alertaEliminar");
+  const alertaEliminarTexto  = document.getElementById("alertaEliminarTexto");
 
   const tablaAlumnos  = document.getElementById("tablaAlumnos");
 
@@ -117,6 +126,14 @@ document.addEventListener("DOMContentLoaded", () => {
     `).join("");
   }
 
+  // Helper para limpiar validaciones y resetear el formulario
+  function limpiarFormulario() {
+    formAlumno.reset();
+    formAlumno.classList.remove("was-validated");
+    [inputNombre, inputCorreo, inputPassword, inputNumCtrl, inputEdad]
+      .forEach(inp => inp.setCustomValidity(""));
+  }
+
   // ===================== 5. VALIDACIÓN Y GUARDADO =====================
   formAlumno.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -169,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // --- Crear objeto alumno ---
+    // --- Crear objeto alumno (aún sin guardar) ---
     const nuevoAlumno = {
       nombre: inputNombre.value.trim(),
       correo: inputCorreo.value.trim(),
@@ -178,54 +195,100 @@ document.addEventListener("DOMContentLoaded", () => {
       fechaRegistro: new Date().toISOString()
     };
 
-    // --- Agregar al arreglo en memoria ---
-    alumnos.push(nuevoAlumno);
-
-    // --- Persistir en localStorage ---
-    guardarAlumnos(alumnos);
-
-    // --- Refrescar tabla ---
-    renderAlumnos();
-
-    // --- Modal de edad ---
-    if (edad >= 18) {
-      modalEdadBody.innerHTML = `
-        <div class="text-center">
-          <i class="bi bi-check-circle-fill text-success display-4"></i>
-          <h4 class="mt-3 text-success">Mayor de edad</h4>
-          <p class="mb-0">El alumno <strong>${nuevoAlumno.nombre}</strong>
-            tiene <strong>${edad}</strong> años.</p>
-        </div>`;
-    } else {
+    // --- Si es menor de edad, NO se guarda ---
+    if (edad < 18) {
       modalEdadBody.innerHTML = `
         <div class="text-center">
           <i class="bi bi-exclamation-triangle-fill text-warning display-4"></i>
           <h4 class="mt-3 text-warning">Menor de edad</h4>
           <p class="mb-0">El alumno <strong>${nuevoAlumno.nombre}</strong>
-            tiene <strong>${edad}</strong> años.</p>
+            tiene <strong>${edad}</strong> años y <strong>no puede registrarse</strong>.</p>
+          <small class="text-muted d-block mt-2">Solo se permiten alumnos mayores de 18 años.</small>
         </div>`;
+      modalEdad.show();
+      limpiarFormulario();
+      return;
     }
+
+    // --- Es mayor de edad → se guarda ---
+    alumnos.push(nuevoAlumno);
+    guardarAlumnos(alumnos);
+    renderAlumnos();
+
+    modalEdadBody.innerHTML = `
+      <div class="text-center">
+        <i class="bi bi-check-circle-fill text-success display-4"></i>
+        <h4 class="mt-3 text-success">Mayor de edad</h4>
+        <p class="mb-0">El alumno <strong>${nuevoAlumno.nombre}</strong>
+          tiene <strong>${edad}</strong> años y fue registrado correctamente.</p>
+      </div>`;
     modalEdad.show();
 
-    // --- Limpiar formulario ---
-    formAlumno.reset();
-    formAlumno.classList.remove("was-validated");
-
-    // Limpiar validaciones personalizadas
-    [inputNombre, inputCorreo, inputPassword, inputNumCtrl, inputEdad]
-      .forEach(inp => inp.setCustomValidity(""));
+    limpiarFormulario();
   });
 
-  // ===================== 6. SALIR DEL SISTEMA =====================
+  // ===================== 6. ELIMINAR ALUMNO =====================
+  btnAbrirEliminar.addEventListener("click", () => {
+    inputNumEliminar.value = "";
+    alertaEliminar.classList.add("d-none");
+    modalEliminar.show();
+  });
+
+  btnConfirmarEliminar.addEventListener("click", () => {
+    const num = inputNumEliminar.value.trim();
+    alertaEliminar.classList.add("d-none");
+
+    // Validar que sea un número de 6 dígitos
+    if (!/^\d{6}$/.test(num)) {
+      alertaEliminarTexto.textContent = "Ingresa un número de control válido de 6 dígitos.";
+      alertaEliminar.classList.remove("d-none");
+      return;
+    }
+
+    // Buscar el índice del alumno
+    const index = alumnos.findIndex(a => a.numControl === num);
+
+    if (index === -1) {
+      alertaEliminarTexto.textContent = `No se encontró ningún alumno con el número de control ${num}.`;
+      alertaEliminar.classList.remove("d-none");
+      return;
+    }
+
+    // Eliminar del arreglo
+    const eliminado = alumnos.splice(index, 1)[0];
+
+    // Persistir y refrescar tabla
+    guardarAlumnos(alumnos);
+    renderAlumnos();
+
+    // Cerrar modal y avisar con el modal de edad (reutilizado)
+    modalEliminar.hide();
+    modalEdadBody.innerHTML = `
+      <div class="text-center">
+        <i class="bi bi-check-circle-fill text-success display-4"></i>
+        <h4 class="mt-3 text-success">Alumno eliminado</h4>
+        <p class="mb-0">Se eliminó a <strong>${eliminado.nombre}</strong>
+          (N° control: <strong>${eliminado.numControl}</strong>).</p>
+      </div>`;
+    modalEdad.show();
+  });
+
+  // Permitir Enter dentro del modal de eliminar
+  inputNumEliminar.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      btnConfirmarEliminar.click();
+    }
+  });
+
+    // ===================== 7. SALIR DEL SISTEMA =====================
   btnSalir.addEventListener("click", (e) => {
     e.preventDefault();
-
-    if (!confirm("¿Seguro que deseas cerrar sesión?")) return;
 
     sessionStorage.removeItem("usuarioActual");
     window.location.href = "login.html";
   });
 
-  // ===================== 7. RENDER INICIAL =====================
+  // ===================== 8. RENDER INICIAL =====================
   renderAlumnos();
 });
