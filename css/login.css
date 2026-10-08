@@ -1,8 +1,8 @@
 /* ================= LOGIN ================= */
 :root {
-  --login-dark: #212529;      /* mismo bg-dark del navbar */
-  --login-gray: #6c757d;      /* mismo bg-secondary del sidebar */
-  --login-bg: #f5f7fa;        /* mismo fondo del body en index */
+  --login-dark: #212529;
+  --login-gray: #6c757d;
+  --login-bg: #f5f7fa;
 }
 
 html, body {
@@ -12,71 +12,81 @@ html, body {
 body {
   background-color: var(--login-bg);
   overflow-x: hidden;
+  font-size: 1.05rem;
 }
 
-/* ---------- CONTENEDOR ---------- */
 .login-wrapper {
   min-height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 2rem;
 }
 
-/* ---------- TARJETA ---------- */
 .login-card {
   width: 100%;
-  max-width: 420px;
+  max-width: 480px;
   background: #fff;
   border: 1px solid #dee2e6;
-  border-radius: 0.5rem;
+  border-radius: 0.6rem;
   overflow: hidden;
-  box-shadow: 0 0.5rem 1.5rem rgba(33, 37, 41, 0.15);
+  box-shadow: 0 0.75rem 2rem rgba(33, 37, 41, 0.18);
 }
 
-/* ---------- CABECERA (igual que el navbar) ---------- */
+/* ---------- CABECERA ---------- */
 .login-brand {
   background-color: var(--login-dark);
   color: #fff;
   text-align: center;
-  padding: 1.75rem 1.5rem;
+  padding: 2.25rem 1.75rem;
   margin-bottom: 0;
 }
 
 .login-brand i {
-  font-size: 2.75rem;
+  font-size: 3.25rem;
   color: #fff;
 }
 
 .login-brand h1 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 600;
-  margin: 0.5rem 0 0.25rem;
+  margin: 0.6rem 0 0.3rem;
 }
 
 .login-brand p {
   margin: 0;
   color: rgba(255, 255, 255, 0.65);
-  font-size: 0.95rem;
+  font-size: 1.05rem;
 }
 
 /* ---------- ALERTA Y FORMULARIO ---------- */
 #alertaLogin {
-  margin: 1.5rem 1.75rem 0;
+  margin: 1.75rem 2.25rem 0;
 }
 
 #formLogin {
-  padding: 1.75rem;
+  padding: 2.25rem;
 }
 
 #formLogin .form-label {
   font-weight: 500;
+  font-size: 1.05rem;
+}
+
+#formLogin .form-control,
+#formLogin .input-group-text,
+#formLogin .btn-outline-secondary {
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  font-size: 1.05rem;
 }
 
 #formLogin .input-group-text {
   background-color: var(--login-gray);
   border-color: var(--login-gray);
   color: #fff;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 #formLogin .form-control:focus {
@@ -85,22 +95,15 @@ body {
 }
 
 #formLogin .btn-primary {
-  padding: 0.6rem 1rem;
+  padding: 0.8rem 1rem;
+  font-size: 1.1rem;
   font-weight: 500;
 }
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 576px) {
-  .login-wrapper {
-    padding: 1rem;
-  }
-  .login-brand {
-    padding: 1.25rem 1rem;
-  }
-  #formLogin {
-    padding: 1.25rem;
-  }
-  #alertaLogin {
-    margin: 1.25rem 1.25rem 0;
-  }
+  .login-wrapper { padding: 1rem; }
+  .login-brand { padding: 1.5rem 1rem; }
+  #formLogin { padding: 1.5rem; }
+  #alertaLogin { margin: 1.5rem 1.5rem 0; }
 }

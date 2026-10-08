@@ -1,0 +1,20 @@
+[
+  {
+    "usuario": "admin",
+    "correo": "admin@itoaxaca.edu.mx",
+    "password": "admin123",
+    "nombre": "Administrador"
+  },
+  {
+    "usuario": "roque",
+    "correo": "roque@itoaxaca.edu.mx",
+    "password": "1234",
+    "nombre": "Roque Antonio"
+  },
+  {
+    "usuario": "jesus",
+    "correo": "23160870@itoaxaca.edu.mx",
+    "password": "1234",
+    "nombre": "Jesús Cortés"
+  }
+]
